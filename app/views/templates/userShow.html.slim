@@ -1,0 +1,23 @@
+div
+  div.panel.panel-default.dashboard-list
+    div.panel-heading 
+      h4 Tasks
+    ul.list-group(ng-show="tasks == 0")
+      li.list-group-item
+        ' You didn't assigned any tasks yet.      
+    ul.list-group
+      li.list-group-item(ng-repeat="task in tasks")
+        button.btn.btn-danger.btn-xs.pull-right(type="button" ng-click="deleteTask(task, $index)")
+          span
+            'Delete Complete
+        calendar(model="task.due_date" on-change="dueDatePicked(task)")
+          button.btn.btn-info.btn-xs.pull-right(type="button")
+            span Set Due Date
+        span
+          '{{task.name}} ({{task.due_date}}) ({{task.completed ? 'Completed' : 'Pending'}})
+
+  form#new_list(ng-submit="addTask(taskName)")
+    .input-group
+      input#taskName.form-control.input-lg(type="text" autofocus="autofocus" placeholder="Task name" maxlength="255" ng-model="taskName" data-non-blank)
+      span.input-group-btn
+        button.btn.btn-primary.btn-lg(type="submit") create task

@@ -1,0 +1,45 @@
+div(ng-controller="DashboardController")
+  - if current_user.admin?
+    .ng-cloak(ng-init="init()")
+      div.panel.panel-default.dashboard-list
+        div.panel-heading 
+          h4 Pending Users
+        ul.list-group(ng-show="pending_users == 0")
+          li.list-group-item
+            'No pending user found.      
+        ul.list-group
+          li.list-group-item(ng-repeat="user in pending_users")
+            button.btn.btn-success.btn-xs.pull-right(type="button" ng-click="approveUser(user, $index)" title="Approve User")
+              span
+                'Approve User
+            a(ng-click="userTask(user)" title="User Task" style="cursor: pointer;") 
+              ' {{user.email}}
+              
+      div.panel.panel-default.dashboard-list
+        div.panel-heading 
+          h4 Approved Users
+        ul.list-group(ng-show="approved_users == 0")
+          li.list-group-item
+            'No approved user found.      
+        ul.list-group
+          li.list-group-item(ng-repeat="user in approved_users")
+            button.btn.btn-danger.btn-xs.pull-right(type="button" ng-click="rejectUser(user, $index)" title="Reject User")
+              span
+                'Reject User
+            a(ng-click="userTask(user)" title="User Task" style="cursor: pointer;") 
+              ' {{user.email}}
+  - else
+    .ng-cloak(ng-init="init()")
+      div.panel.panel-default.dashboard-list
+        div.panel-heading 
+          h4 Your Pending Tasks
+        ul.list-group(ng-show="tasks == 0")
+          li.list-group-item
+            ' You don't have any pending task.      
+        ul.list-group
+          li.list-group-item(ng-repeat="task in tasks")
+            button.btn.btn-success.btn-xs.pull-right(type="button" ng-click="completeTask(task, $index)")
+              span
+                'Mark Complete
+            span
+              '{{task.name}} ({{task.due_date}})
